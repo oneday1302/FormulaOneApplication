@@ -12,6 +12,9 @@ public class TimeDataParser implements Parser<TimeData> {
         if (data == null) {
             throw new IllegalArgumentException("Param cannot be null.");
         }
+        if (data.length() <= 3) {
+            throw new IllegalStateException();
+        }
         return new TimeData(data.substring(0, ABBREVIATION_LENGTH),
                 LocalDateTime.parse(data.substring(ABBREVIATION_LENGTH), format));
     }
