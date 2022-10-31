@@ -8,6 +8,9 @@ public class RacerDataParser implements Parser<RacerData> {
             throw new IllegalArgumentException("Param cannot be null.");
         }       
         String[] dataArray = data.split("_");
+        if (dataArray.length != 3) {
+            throw new IllegalStateException();
+        }
         return new RacerData(dataArray[0], dataArray[1], dataArray[2]);
     }
 }
