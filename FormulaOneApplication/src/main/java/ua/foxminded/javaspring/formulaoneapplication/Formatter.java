@@ -1,5 +1,5 @@
 package ua.foxminded.javaspring.formulaoneapplication;
 
-public interface Formmatter {
+public interface Formatter {
     public String format();
 }
