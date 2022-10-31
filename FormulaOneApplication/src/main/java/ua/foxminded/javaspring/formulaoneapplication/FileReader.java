@@ -11,14 +11,14 @@ public class FileReader implements DataSource<String> {
     private String fileName;
 
     public FileReader(String fileName) {
+        if (fileName == null) {
+            throw new IllegalArgumentException("Param cannot be null.");
+        }
         this.fileName = fileName;
     }
 
     @Override
     public Stream<String> getData() {
-        if (fileName == null) {
-            throw new IllegalArgumentException("Param cannot be null.");
-        }
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(this.getClass().getResourceAsStream(fileName)))) {
             List<String> list = new LinkedList<>();
