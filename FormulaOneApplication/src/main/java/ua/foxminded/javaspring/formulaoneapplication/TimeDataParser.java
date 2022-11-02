@@ -12,7 +12,7 @@ public class TimeDataParser implements Parser<TimeData> {
         if (data == null) {
             throw new IllegalArgumentException("Param cannot be null.");
         }
-        if (data.length() <= 3) {
+        if (data.length() < 4) {
             throw new IllegalStateException();
         }
         return new TimeData(data.substring(0, ABBREVIATION_LENGTH),
