@@ -26,8 +26,8 @@ public class RaceResult implements DataSource<RacerResult> {
         return racers.getData().map(makeCombinator(toMap(start), toMap(end)));
     }
 
-    private Map<String, LocalDateTime> toMap(DataSource<TimeData> data) {
-        return data.getData().collect(Collectors.toMap(TimeData::getRecerAbbreviation, TimeData::getTime));
+    private Map<String, LocalDateTime> toMap(DataSource<TimeData> timeData) {
+        return timeData.getData().collect(Collectors.toMap(TimeData::getRecerAbbreviation, TimeData::getTime));
     }
 
     private Function<RacerData, RacerResult> makeCombinator(Map<String, LocalDateTime> startTimes, Map<String, LocalDateTime> endTimes) {
