@@ -37,13 +37,13 @@ class ParsedDataSourceTest {
         RacerData racer = new RacerData("DRR", "Daniel Ricciardo", "RED BULL RACING TAG HEUER");
         Parser<RacerData> mockParser = Mockito.mock(Parser.class);
         when(mockParser.parse("DRR_Daniel Ricciardo_RED BULL RACING TAG HEUER")).thenReturn(racer);
-        
+
         List<RacerData> expected = new ArrayList<>();
         expected.add(racer);
-        
+
         ParsedDataSource<RacerData> parsedDataSource = new ParsedDataSource<>(mockDataSource, mockParser);
         List<RacerData> actual = parsedDataSource.getData().collect(Collectors.toList());
-        
+
         assertEquals(expected, actual);
     }
 }

@@ -48,10 +48,10 @@ public class TopRacersFormatter implements Formatter {
     }
     
     private String racerResultToString(RacerResult r) {
+        String row = String.format(ROW_FORMAT, place.incrementAndGet(), r.getName(), r.getTeam(), formatTime(r.getLapTime()));
         if (place.get() == topN) {
-            String row = String.format(ROW_FORMAT, place.incrementAndGet(), r.getName(), r.getTeam(), formatTime(r.getLapTime()));
-            return makeDelimiter(row.length()) + "\n" + row;
+            return row + System.lineSeparator() + makeDelimiter(row.length());
         }
-        return String.format(ROW_FORMAT, place.incrementAndGet(), r.getName(), r.getTeam(), formatTime(r.getLapTime()));
+        return row;
     }
 }
