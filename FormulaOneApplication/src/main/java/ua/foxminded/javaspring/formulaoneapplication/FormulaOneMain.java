@@ -9,7 +9,7 @@ public class FormulaOneMain {
         DataSource<TimeData> endTime = new ParsedDataSource<>(new FileReader("end.log"), new TimeDataParser());
         DataSource<RacerResult> raceResult = new RaceResult(racers, startTime, endTime);
         DataSource<RacerResult> sortedRaceResult = new SortedDataSource<>(raceResult, Comparator.comparing(RacerResult::getLapTime));
-        DataSource<String> racerResultFormatter = new RacerResultFormatter(sortedRaceResult);
+        DataSource<String> racerResultFormatter = new FormattedRacerResultDataSource(sortedRaceResult);
         DataSource<String> topRacersFormatter = new TopRacersFormatter(racerResultFormatter);
         topRacersFormatter.getData().forEach(System.out::println);
     }

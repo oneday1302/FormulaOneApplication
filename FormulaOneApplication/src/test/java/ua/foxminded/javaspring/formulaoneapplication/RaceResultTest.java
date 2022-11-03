@@ -56,28 +56,25 @@ class RaceResultTest {
         when(mockDataSourceRacerData.getData()).thenReturn(streamRacerData);
 
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss.SSS");
+        LocalDateTime startTime = LocalDateTime.parse("2018-05-24_12:14:12.054", format);
+        LocalDateTime endTime = LocalDateTime.parse("2018-05-24_12:15:24.067", format);
 
-        Stream<TimeData> streamStartTimeData = Stream
-                .of(new TimeData("DRR", LocalDateTime.parse("2018-05-24_12:14:12.054", format)));
+        Stream<TimeData> streamStartTimeData = Stream.of(new TimeData("DRR", startTime));
         DataSource<TimeData> mockDataSourceStartTimeData = Mockito.mock(DataSource.class);
         when(mockDataSourceStartTimeData.getData()).thenReturn(streamStartTimeData);
 
-        Stream<TimeData> streamEndTimeData = Stream
-                .of(new TimeData("DRR", LocalDateTime.parse("2018-05-24_12:15:24.067", format)));
+        Stream<TimeData> streamEndTimeData = Stream.of(new TimeData("DRR", endTime));
         DataSource<TimeData> mockDataSourceEndTimeData = Mockito.mock(DataSource.class);
         when(mockDataSourceEndTimeData.getData()).thenReturn(streamEndTimeData);
 
         List<RacerResult> expected = new ArrayList<>();
-        expected.add(new RacerResult(
-                "Daniel Ricciardo", 
-                "RED BULL RACING TAG HEUER",
-                Duration.between(
-                        LocalDateTime.parse("2018-05-24_12:14:12.054", format),
-                        LocalDateTime.parse("2018-05-24_12:15:24.067", format))));
+        expected.add(
+                new RacerResult("Daniel Ricciardo", "RED BULL RACING TAG HEUER", Duration.between(startTime, endTime)));
 
-        RaceResult raceResult = new RaceResult(mockDataSourceRacerData, mockDataSourceStartTimeData, mockDataSourceEndTimeData);
+        RaceResult raceResult = new RaceResult(mockDataSourceRacerData, mockDataSourceStartTimeData,
+                mockDataSourceEndTimeData);
         List<RacerResult> actual = raceResult.getData().collect(Collectors.toList());
-        
+
         assertEquals(expected, actual);
     }
 }

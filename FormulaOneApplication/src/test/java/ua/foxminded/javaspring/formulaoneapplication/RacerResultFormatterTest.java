@@ -23,7 +23,7 @@ class RacerResultFormatterTest {
     @Test
     void RacerResultFormatter_shouldReturnIllegalArgumentException_whenInputNull() {
         assertThrows(IllegalArgumentException.class, () -> {
-            RacerResultFormatter racerResultFormatter = new RacerResultFormatter(null);
+            FormattedRacerResultDataSource racerResultFormatter = new FormattedRacerResultDataSource(null);
         });
     }
 
@@ -46,7 +46,7 @@ class RacerResultFormatterTest {
                         parseTime("2018-05-24_12:18:20.125", "2018-05-24_12:19:32.585")));
         DataSource<RacerResult> mockDataSource = Mockito.mock(DataSource.class);
         when(mockDataSource.getData()).thenReturn(stream);
-        RacerResultFormatter racerResultFormatter = new RacerResultFormatter(mockDataSource);
+        FormattedRacerResultDataSource racerResultFormatter = new FormattedRacerResultDataSource(mockDataSource);
         List<String> actual = racerResultFormatter.getData().collect(Collectors.toList());
 
         assertEquals(expected, actual);
