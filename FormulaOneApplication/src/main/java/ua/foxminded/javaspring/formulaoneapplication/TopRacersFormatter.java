@@ -1,27 +1,21 @@
 package ua.foxminded.javaspring.formulaoneapplication;
 
-import java.time.Duration;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class TopRacersFormatter implements Formatter {
+public class TopRacersFormatter implements DataSource<String> {
     private static final int DEFAULT_TOP_RACERS = 15;
     private static final char DELIMITER = '-';
-    private static final String ROW_FORMAT = "%2d.%-17s |%-25s |%s";
-    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("mm:ss.SSS");
-    private final AtomicInteger place = new AtomicInteger();
-    private final DataSource<RacerResult> racerResult;
+    private final AtomicInteger index = new AtomicInteger(1);
+    private final DataSource<String> racerResult;
     private final int topN;
 
-    public TopRacersFormatter(DataSource<RacerResult> racerResult) {
+    public TopRacersFormatter(DataSource<String> racerResult) {
         this(racerResult, DEFAULT_TOP_RACERS);
     }
 
-    public TopRacersFormatter(DataSource<RacerResult> racerResult, int topN) {
+    public TopRacersFormatter(DataSource<String> racerResult, int topN) {
         if (racerResult == null) {
             throw new IllegalArgumentException("Param cannot be null.");
         }
@@ -30,28 +24,19 @@ public class TopRacersFormatter implements Formatter {
     }
 
     @Override
-    public String format() {
+    public Stream<String> getData() {
         return racerResult.getData()
-                          .sorted(Comparator.comparing(RacerResult::getLapTime))
-                          .map(this::racerResultToString)
-                          .collect(Collectors.joining(System.lineSeparator()));
+                          .flatMap(r -> {
+                              if (index.getAndIncrement() == topN) {
+                                  return Stream.of(r, makeDelimiter(r.length()));
+                              }
+                              return Stream.of(r);
+                          });
     }
 
     private String makeDelimiter(int length) {
         char[] chars = new char[length];
         Arrays.fill(chars, DELIMITER);
         return new String(chars);
-    }
-
-    private String formatTime(Duration time) {      
-        return TIME_FORMATTER.format(LocalTime.MIDNIGHT.plus(time));
-    }
-    
-    private String racerResultToString(RacerResult r) {
-        String row = String.format(ROW_FORMAT, place.incrementAndGet(), r.getName(), r.getTeam(), formatTime(r.getLapTime()));
-        if (place.get() == topN) {
-            return row + System.lineSeparator() + makeDelimiter(row.length());
-        }
-        return row;
     }
 }
