@@ -10,7 +10,7 @@ public class FormulaOneMain {
         DataSource<RacerResult> raceResult = new RaceResult(racers, startTime, endTime);
         DataSource<RacerResult> sortedRaceResult = new SortedDataSource<>(raceResult, Comparator.comparing(RacerResult::getLapTime));
         DataSource<String> racerResultFormatter = new RacerResultFormatter(sortedRaceResult);
-        DataSource<String> formatter = new TopRacersFormatter(racerResultFormatter);
-        formatter.getData().forEach(System.out::println);
+        DataSource<String> topRacersFormatter = new TopRacersFormatter(racerResultFormatter);
+        topRacersFormatter.getData().forEach(System.out::println);
     }
 }

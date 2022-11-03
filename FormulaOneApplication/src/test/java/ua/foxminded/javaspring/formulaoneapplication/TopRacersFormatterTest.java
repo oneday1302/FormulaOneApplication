@@ -3,9 +3,6 @@ package ua.foxminded.javaspring.formulaoneapplication;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,12 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 class TopRacersFormatterTest {
-    DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss.SSS");
-
-    Duration timeParse(String startTime, String endTime) {
-        return Duration.between(LocalDateTime.parse(startTime, format), LocalDateTime.parse(endTime, format));
-    }
-
     @Test
     void TopRacersFormatter_shouldReturnIllegalArgumentException_whenInputNull() {
         assertThrows(IllegalArgumentException.class, () -> {
@@ -36,7 +27,8 @@ class TopRacersFormatterTest {
         expected.add("----------------------------------------------------------");
         expected.add(" 4.Lewis Hamilton    |MERCEDES                  |01:12.460");
 
-        Stream<String> stream = Stream.of(" 1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013",
+        Stream<String> stream = Stream.of(
+                " 1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013",
                 " 2.Sebastian Vettel  |FERRARI                   |01:12.415",
                 " 3.Valtteri Bottas   |MERCEDES                  |01:12.434",
                 " 4.Lewis Hamilton    |MERCEDES                  |01:12.460");
