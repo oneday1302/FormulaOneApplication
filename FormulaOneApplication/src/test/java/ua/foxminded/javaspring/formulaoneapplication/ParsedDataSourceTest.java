@@ -22,9 +22,9 @@ class ParsedDataSourceTest {
 
     @Test
     void ParsedDataSource_shouldReturnIllegalArgumentException_whenInputSecondParamNull() {
-        DataSource<String> dataSource = Mockito.mock(DataSource.class);
+        DataSource<String> mockDataSource = Mockito.mock(DataSource.class);
         assertThrows(IllegalArgumentException.class, () -> {
-            ParsedDataSource<String> parsedDataSource = new ParsedDataSource<>(dataSource, null);
+            ParsedDataSource<String> parsedDataSource = new ParsedDataSource<>(mockDataSource, null);
         });
     }
 

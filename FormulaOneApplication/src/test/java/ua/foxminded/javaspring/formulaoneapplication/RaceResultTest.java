@@ -17,9 +17,9 @@ class RaceResultTest {
 
     @Test
     void RaceResult_shouldReturnIllegalArgumentException_whenInputFirstParamNull() {
-        DataSource<TimeData> mockDataSourceTimeData = Mockito.mock(DataSource.class);
+        DataSource<TimeData> mockDataSource = Mockito.mock(DataSource.class);
         assertThrows(IllegalArgumentException.class, () -> {
-            RaceResult raceResult = new RaceResult(null, mockDataSourceTimeData, mockDataSourceTimeData);
+            RaceResult raceResult = new RaceResult(null, mockDataSource, mockDataSource);
         });
     }
 

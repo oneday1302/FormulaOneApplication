@@ -40,9 +40,9 @@ class TopRacersFormatterTest {
                 " 2.Sebastian Vettel  |FERRARI                   |01:12.415",
                 " 3.Valtteri Bottas   |MERCEDES                  |01:12.434",
                 " 4.Lewis Hamilton    |MERCEDES                  |01:12.460");
-        DataSource<String> mockRacerResult = Mockito.mock(DataSource.class);
-        when(mockRacerResult.getData()).thenReturn(stream);
-        TopRacersFormatter formatter = new TopRacersFormatter(mockRacerResult, 3);
+        DataSource<String> mockDataSource = Mockito.mock(DataSource.class);
+        when(mockDataSource.getData()).thenReturn(stream);
+        TopRacersFormatter formatter = new TopRacersFormatter(mockDataSource, 3);
         List<String> actual = formatter.getData().collect(Collectors.toList());
 
         assertEquals(expected, actual);
@@ -86,9 +86,9 @@ class TopRacersFormatterTest {
                 "14.Esteban Ocon      |FORCE INDIA MERCEDES      |01:13.028",
                 "15.Nico Hulkenberg   |RENAULT                   |01:13.065",
                 "16.Brendon Hartley   |SCUDERIA TORO ROSSO HONDA |01:13.179");
-        DataSource<String> mockRacerResult = Mockito.mock(DataSource.class);
-        when(mockRacerResult.getData()).thenReturn(stream);
-        TopRacersFormatter formatter = new TopRacersFormatter(mockRacerResult);
+        DataSource<String> mockDataSource = Mockito.mock(DataSource.class);
+        when(mockDataSource.getData()).thenReturn(stream);
+        TopRacersFormatter formatter = new TopRacersFormatter(mockDataSource);
         List<String> actual = formatter.getData().collect(Collectors.toList());
         
         assertEquals(expected, actual);

@@ -7,11 +7,11 @@ public class SortedDataSource<T> implements DataSource<T> {
     private final DataSource<T> raceResult;
     private final Comparator<T> comparator;
 
-    public SortedDataSource(DataSource<T> raceResult, Comparator<T> comparator) {
-        if (raceResult == null || comparator == null) {
+    public SortedDataSource(DataSource<T> toSort, Comparator<T> comparator) {
+        if (toSort == null || comparator == null) {
             throw new IllegalArgumentException("Params cannot be null.");
         }
-        this.raceResult = raceResult;
+        this.raceResult = toSort;
         this.comparator = comparator;
     }
 
