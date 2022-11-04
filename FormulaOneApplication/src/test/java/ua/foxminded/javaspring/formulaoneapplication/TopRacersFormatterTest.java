@@ -20,66 +20,102 @@ class TopRacersFormatterTest {
 
     @Test
     void TopRacersFormatter_shouldReturnIllegalStateException_whenInputTopNLessThanZero() {
-        Stream<String> stream = Stream.of(" 1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013");
+        List<String> expected = new ArrayList<>();
+        expected.add("1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013");
+        expected.add("2.Sebastian Vettel  |FERRARI                   |01:12.415");
+        expected.add("3.Valtteri Bottas   |MERCEDES                  |01:12.434");
+        expected.add("4.Lewis Hamilton    |MERCEDES                  |01:12.460");
+        
+        Stream<String> stream = Stream.of(
+                "1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013",
+                "2.Sebastian Vettel  |FERRARI                   |01:12.415",
+                "3.Valtteri Bottas   |MERCEDES                  |01:12.434",
+                "4.Lewis Hamilton    |MERCEDES                  |01:12.460");
         DataSource<String> mockDataSource = Mockito.mock(DataSource.class);
         when(mockDataSource.getData()).thenReturn(stream);
-        assertThrows(IllegalStateException.class, () -> {
-            TopRacersFormatter topRacersFormatter = new TopRacersFormatter(mockDataSource, -1);
-        });
+        TopRacersFormatter formatter = new TopRacersFormatter(mockDataSource, -1);
+        List<String> actual = formatter.getData().collect(Collectors.toList());
+
+        assertEquals(expected, actual);
     }
     
     @Test
     void TopRacersFormatter_shouldReturnIllegalStateException_whenInputTopNEqualsZero() {
-        Stream<String> stream = Stream.of(" 1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013");
+        List<String> expected = new ArrayList<>();
+        expected.add("1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013");
+        expected.add("2.Sebastian Vettel  |FERRARI                   |01:12.415");
+        expected.add("3.Valtteri Bottas   |MERCEDES                  |01:12.434");
+        expected.add("4.Lewis Hamilton    |MERCEDES                  |01:12.460");
+        
+        Stream<String> stream = Stream.of(
+                "1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013",
+                "2.Sebastian Vettel  |FERRARI                   |01:12.415",
+                "3.Valtteri Bottas   |MERCEDES                  |01:12.434",
+                "4.Lewis Hamilton    |MERCEDES                  |01:12.460");
         DataSource<String> mockDataSource = Mockito.mock(DataSource.class);
         when(mockDataSource.getData()).thenReturn(stream);
-        assertThrows(IllegalStateException.class, () -> {
-            TopRacersFormatter topRacersFormatter = new TopRacersFormatter(mockDataSource, 0);
-        });
+        TopRacersFormatter formatter = new TopRacersFormatter(mockDataSource, 0);
+        List<String> actual = formatter.getData().collect(Collectors.toList());
+
+        assertEquals(expected, actual);
     }
     
     @Test
     void TopRacersFormatter_shouldReturnIllegalStateException_whenInputTopNEqualsNumberOfRacers() {
+        List<String> expected = new ArrayList<>();
+        expected.add("1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013");
+        expected.add("2.Sebastian Vettel  |FERRARI                   |01:12.415");
+        expected.add("3.Valtteri Bottas   |MERCEDES                  |01:12.434");
+        expected.add("4.Lewis Hamilton    |MERCEDES                  |01:12.460");
+        
         Stream<String> stream = Stream.of(
-                " 1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013",
-                " 2.Sebastian Vettel  |FERRARI                   |01:12.415",
-                " 3.Valtteri Bottas   |MERCEDES                  |01:12.434",
-                " 4.Lewis Hamilton    |MERCEDES                  |01:12.460");
+                "1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013",
+                "2.Sebastian Vettel  |FERRARI                   |01:12.415",
+                "3.Valtteri Bottas   |MERCEDES                  |01:12.434",
+                "4.Lewis Hamilton    |MERCEDES                  |01:12.460");
         DataSource<String> mockDataSource = Mockito.mock(DataSource.class);
         when(mockDataSource.getData()).thenReturn(stream);
-        assertThrows(IllegalStateException.class, () -> {
-            TopRacersFormatter topRacersFormatter = new TopRacersFormatter(mockDataSource, 4);
-        });
+        TopRacersFormatter formatter = new TopRacersFormatter(mockDataSource, 4);
+        List<String> actual = formatter.getData().collect(Collectors.toList());
+
+        assertEquals(expected, actual);
     }
     
     @Test
     void TopRacersFormatter_shouldReturnIllegalStateException_whenInputTopNMoreThanNumberOfRacers() {
+        List<String> expected = new ArrayList<>();
+        expected.add("1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013");
+        expected.add("2.Sebastian Vettel  |FERRARI                   |01:12.415");
+        expected.add("3.Valtteri Bottas   |MERCEDES                  |01:12.434");
+        expected.add("4.Lewis Hamilton    |MERCEDES                  |01:12.460");
+        
         Stream<String> stream = Stream.of(
-                " 1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013",
-                " 2.Sebastian Vettel  |FERRARI                   |01:12.415",
-                " 3.Valtteri Bottas   |MERCEDES                  |01:12.434",
-                " 4.Lewis Hamilton    |MERCEDES                  |01:12.460");
+                "1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013",
+                "2.Sebastian Vettel  |FERRARI                   |01:12.415",
+                "3.Valtteri Bottas   |MERCEDES                  |01:12.434",
+                "4.Lewis Hamilton    |MERCEDES                  |01:12.460");
         DataSource<String> mockDataSource = Mockito.mock(DataSource.class);
         when(mockDataSource.getData()).thenReturn(stream);
-        assertThrows(IllegalStateException.class, () -> {
-            TopRacersFormatter topRacersFormatter = new TopRacersFormatter(mockDataSource, 5);
-        });
+        TopRacersFormatter formatter = new TopRacersFormatter(mockDataSource, 5);
+        List<String> actual = formatter.getData().collect(Collectors.toList());
+
+        assertEquals(expected, actual);
     }
 
     @Test
     void format_shouldReturnStringTopThree_whenInputSecondParamThree() {
         List<String> expected = new ArrayList<>();
-        expected.add(" 1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013");
-        expected.add(" 2.Sebastian Vettel  |FERRARI                   |01:12.415");
-        expected.add(" 3.Valtteri Bottas   |MERCEDES                  |01:12.434");
-        expected.add("----------------------------------------------------------");
-        expected.add(" 4.Lewis Hamilton    |MERCEDES                  |01:12.460");
+        expected.add("1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013");
+        expected.add("2.Sebastian Vettel  |FERRARI                   |01:12.415");
+        expected.add("3.Valtteri Bottas   |MERCEDES                  |01:12.434");
+        expected.add("---------------------------------------------------------");
+        expected.add("4.Lewis Hamilton    |MERCEDES                  |01:12.460");
 
         Stream<String> stream = Stream.of(
-                " 1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013",
-                " 2.Sebastian Vettel  |FERRARI                   |01:12.415",
-                " 3.Valtteri Bottas   |MERCEDES                  |01:12.434",
-                " 4.Lewis Hamilton    |MERCEDES                  |01:12.460");
+                "1.Daniel Ricciardo  |RED BULL RACING TAG HEUER |01:12.013",
+                "2.Sebastian Vettel  |FERRARI                   |01:12.415",
+                "3.Valtteri Bottas   |MERCEDES                  |01:12.434",
+                "4.Lewis Hamilton    |MERCEDES                  |01:12.460");
         DataSource<String> mockDataSource = Mockito.mock(DataSource.class);
         when(mockDataSource.getData()).thenReturn(stream);
         TopRacersFormatter formatter = new TopRacersFormatter(mockDataSource, 3);

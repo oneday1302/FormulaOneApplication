@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 public class TopRacersFormatter implements DataSource<String> {
     private static final int DEFAULT_TOP_RACERS = 15;
     private static final char DELIMITER = '-';
-    private List<String> racerResult;
+    private DataSource<String> racerResult;
     private final int topN;
 
     public TopRacersFormatter(DataSource<String> racerResult) {
@@ -19,17 +19,18 @@ public class TopRacersFormatter implements DataSource<String> {
         if (racerResult == null) {
             throw new IllegalArgumentException("Param cannot be null.");
         }
-        this.racerResult = racerResult.getData().collect(Collectors.toList());
-        if (topN >= this.racerResult.size() || topN <= 0) {
-            throw new IllegalStateException();
-        }
+        this.racerResult = racerResult;
         this.topN = topN;
     }
 
     @Override
     public Stream<String> getData() {
-        racerResult.add(topN, makeDelimiter(racerResult.get(topN).length()));
-        return racerResult.stream();
+        List<String> list = racerResult.getData().collect(Collectors.toList());
+        if (topN <= 0 || topN >= list.size()) {
+            return list.stream();
+        }
+        list.add(topN, makeDelimiter(list.get(topN).length()));
+        return list.stream();
     }
 
     private String makeDelimiter(int length) {
